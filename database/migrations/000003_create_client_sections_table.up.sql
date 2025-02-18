@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS client_sections (
+    id SERIAL PRIMARY KEY,
+    name varchar(150),
+    path_icon text NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
+);
