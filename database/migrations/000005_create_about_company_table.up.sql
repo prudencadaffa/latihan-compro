@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS about_companies (
+CREATE TABLE IF NOT EXISTS about_company(
     id SERIAL PRIMARY KEY,
     description text,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
