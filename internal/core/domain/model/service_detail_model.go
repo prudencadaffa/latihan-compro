@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type ServiceDetails struct {
+type ServiceDetail struct {
 	ID          int64 `gorm:"id,primaryKey"`
 	ServiceID   int64
 	PathImage   string

@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS service_details (
+CREATE TABLE IF NOT EXISTS service_detail (
     id SERIAL PRIMARY KEY,
-    service_id INT REFERENCES service_sections(id) ON DELETE CASCADE,
+    service_id INT REFERENCES service_section(id) ON DELETE CASCADE,
     path_image text NOT NULL,
     title varchar(255) NOT NULL,
     description text NOT NULL,
@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS service_details (
     deleted_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_service_details_service_id ON service_details(service_id);
+CREATE INDEX idx_service_detail_service_id ON service_detail(service_id);

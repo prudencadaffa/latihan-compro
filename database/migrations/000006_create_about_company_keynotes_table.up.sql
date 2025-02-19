@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS about_company_keynotes (
     id SERIAL PRIMARY KEY,
-    about_company_id INT REFERENCES about_companies(id) ON DELETE CASCADE,
+    about_company_id INT REFERENCES about_company(id) ON DELETE CASCADE,
     keypoint text,
     path_image text null,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

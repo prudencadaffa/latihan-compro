@@ -1,7 +1,7 @@
-CREATE TABLE IF NOT EXISTS faq_sections (
+CREATE TABLE IF NOT EXISTS client_section (
     id SERIAL PRIMARY KEY,
-    title varchar(255),
-    description text,
+    name varchar(150),
+    path_icon text NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP

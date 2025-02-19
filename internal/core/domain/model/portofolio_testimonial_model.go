@@ -6,15 +6,13 @@ import (
 	"gorm.io/gorm"
 )
 
-type PortofolioDetails struct {
+type PortofolioTestimonial struct {
 	ID                  int64 `gorm:"id,primaryKey"`
 	PortofolioSectionID int64
-	Category            string
+	Thumbnail           string
+	Message             string
 	ClientName          string
-	ProjectDate         time.Time
-	ProjectUrl          *string
-	Title               string
-	Description         string
+	Role                string
 	CreatedAt           time.Time
 	UpdatedAt           *time.Time
 	DeletedAt           gorm.DeletedAt `gorm:"index"`

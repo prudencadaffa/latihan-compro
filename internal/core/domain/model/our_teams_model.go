@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type OurTeam struct {
+type OurTeams struct {
 	ID        int64 `gorm:"id,primaryKey"`
 	Name      string
 	Role      string

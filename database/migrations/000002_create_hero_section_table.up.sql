@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS hero_sections (
+CREATE TABLE IF NOT EXISTS hero_section(
     id SERIAL PRIMARY KEY,
     heading varchar(150),
     sub_heading varchar(150),

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS appointments (
     id SERIAL PRIMARY KEY,
-    service_id INT REFERENCES service_sections(id) ON DELETE CASCADE,
+    service_id INT REFERENCES service_section(id) ON DELETE CASCADE,
     name varchar(150),
     phone_number varchar(15),
     email varchar(150),
