@@ -14,13 +14,13 @@ func SeedAdmin(db *gorm.DB) {
 		log.Fatal().Err(err).Msg(err.Error())
 	}
 
-	admin := model.Users{
+	admin := model.User{
 		Name:     "admin",
 		Email:    "admin@mail.com",
 		Password: bytes,
 	}
 
-	if err = db.FirstOrCreate(&admin, model.Users{Email: "admin@mail.com"}).Error; err != nil {
+	if err = db.FirstOrCreate(&admin, model.User{Email: "admin@mail.com"}).Error; err != nil {
 		log.Fatal().Err(err).Msg(err.Error())
 	} else {
 		log.Info().Msg("Admin user has been seeded")

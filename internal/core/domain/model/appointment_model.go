@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Appointments struct {
+type Appointment struct {
 	ID          int64 `gorm:"id,primaryKey"`
 	ServiceID   int64
 	Name        string

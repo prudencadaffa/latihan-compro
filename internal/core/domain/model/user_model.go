@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Users struct {
+type User struct {
 	ID        int64          `gorm:"id,primaryKey"`
 	Name      string         `gorm:"name"`
 	Email     string         `gorm:"email"`

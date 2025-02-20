@@ -2,7 +2,7 @@ package entity
 
 import "time"
 
-type AppointmentsEntity struct {
+type AppointmentEntity struct {
 	ID          int64
 	ServiceID   int64
 	Name        string

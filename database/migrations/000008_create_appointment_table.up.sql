@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS appointments (
+CREATE TABLE IF NOT EXISTS appointment (
     id SERIAL PRIMARY KEY,
     service_id INT REFERENCES service_section(id) ON DELETE CASCADE,
     name varchar(150),
@@ -12,4 +12,4 @@ CREATE TABLE IF NOT EXISTS appointments (
     deleted_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_appointments_service_id ON appointments(service_id);
+CREATE INDEX idx_appointment_service_id ON appointment(service_id);

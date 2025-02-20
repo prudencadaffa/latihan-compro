@@ -1,6 +1,6 @@
 package entity
 
-type OurTeamsEntity struct {
+type OurTeamEntity struct {
 	ID        int64
 	Name      string
 	Role      string

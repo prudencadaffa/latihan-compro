@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS our_teams (
+CREATE TABLE IF NOT EXISTS our_team (
     id SERIAL PRIMARY KEY,
     name  varchar(150),
     path_photo text,
