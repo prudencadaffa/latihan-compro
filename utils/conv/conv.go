@@ -1,6 +1,8 @@
 package conv
 
 import (
+	"net/http"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -14,21 +16,21 @@ func CheckPasswordHash(password, hash string) bool {
 	return err == nil
 }
 
-// func SetHTTPStatusCode(err error) int {
-// 	if err == nil {
-// 		return http.StatusOK
-// 	}
-// 	switch err.Error() {
-// 	case ErrInternalServerError.Error():
-// 		return http.StatusInternalServerError
-// 	case ErrNotFound.Error():
-// 		return http.StatusNotFound
-// 	case ErrWrongEmailOrPassword.Error():
-// 		return http.StatusBadRequest
-// 	default:
-// 		return http.StatusInternalServerError
-// 	}
-// }
+func SetHTTPStatusCode(err error) int {
+	if err == nil {
+		return http.StatusOK
+	}
+	switch err.Error() {
+	case ErrInternalServerError.Error():
+		return http.StatusInternalServerError
+	case ErrNotFound.Error():
+		return http.StatusNotFound
+	case ErrWrongEmailOrPassword.Error():
+		return http.StatusBadRequest
+	default:
+		return http.StatusInternalServerError
+	}
+}
 
 // func GetUserIDByContext(ctx echo.Context) int64 {
 // 	u := ctx.Get("user")

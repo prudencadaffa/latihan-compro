@@ -3,26 +3,45 @@ package app
 import (
 	"context"
 	"latihan-compro/config"
+	"latihan-compro/internal/adapter/handler"
+	"latihan-compro/internal/adapter/repository"
+	"latihan-compro/internal/core/service"
+	"latihan-compro/utils/auth"
+	"latihan-compro/utils/validator"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	en "github.com/go-playground/validator/v10/translations/en"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func RunServer() {
 	cfg := config.NewConfig()
-	_, err := cfg.ConnectionPostgres()
+	db, err := cfg.ConnectionPostgres()
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
 		return
 	}
 
+	jwt := auth.NewJwt(cfg)
+	userRepo := repository.NewUserRepository(db.DB)
+	userService := service.NewUserService(userRepo, cfg, jwt)
+
 	e := echo.New()
 	e.Use(middleware.CORS())
+	customValidator := validator.NewValidator()
+	en.RegisterDefaultTranslations(customValidator.Validator, customValidator.Translator)
+	e.Validator = customValidator
+
+	e.GET("/api/check", func(c echo.Context) error {
+		return c.String(200, "OK")
+	})
+
+	handler.NewUserHandler(e, userService)
 
 	//Start the server
 	go func() {
