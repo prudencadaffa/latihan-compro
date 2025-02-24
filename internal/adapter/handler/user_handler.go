@@ -21,7 +21,8 @@ type userHandler struct {
 }
 
 var (
-	err error
+	err  error
+	code string
 )
 
 // LoginAdmin implements UserHandler.

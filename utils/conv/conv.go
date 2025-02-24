@@ -1,8 +1,11 @@
 package conv
 
 import (
+	"latihan-compro/internal/core/domain/entity"
 	"net/http"
+	"strconv"
 
+	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -32,17 +35,17 @@ func SetHTTPStatusCode(err error) int {
 	}
 }
 
-// func GetUserIDByContext(ctx echo.Context) int64 {
-// 	u := ctx.Get("user")
-// 	claims := u.(*entity.JwtData)
-// 	return int64(claims.UserID)
-// }
+func GetUserIDByContext(ctx echo.Context) int64 {
+	u := ctx.Get("user")
+	claims := u.(*entity.JwtData)
+	return int64(claims.UserID)
+}
 
-// func StringToInt64(s string) (int64, error) {
-// 	newData, err := strconv.ParseInt(s, 10, 64)
-// 	if err != nil {
-// 		return 0, err
-// 	}
+func StringToInt64(s string) (int64, error) {
+	newData, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		return 0, err
+	}
 
-// 	return newData, nil
-// }
+	return newData, nil
+}
