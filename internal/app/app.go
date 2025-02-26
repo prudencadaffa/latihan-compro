@@ -5,6 +5,7 @@ import (
 	"latihan-compro/config"
 	"latihan-compro/internal/adapter/handler"
 	"latihan-compro/internal/adapter/repository"
+	"latihan-compro/internal/adapter/storage"
 	"latihan-compro/internal/core/service"
 	"latihan-compro/utils/auth"
 	"latihan-compro/utils/validator"
@@ -29,7 +30,20 @@ func RunServer() {
 
 	jwt := auth.NewJwt(cfg)
 	userRepo := repository.NewUserRepository(db.DB)
+	heroSectionRepo := repository.NewHeroSectionRepository(db.DB)
+	clientSectionRepo := repository.NewClientSectionRepository(db.DB)
+	aboutCompanyRepo := repository.NewAboutCompanyRepository(db.DB)
+	aboutCompanyKeynoteRepo := repository.NewAboutCompanyKeynoteRepository(db.DB)
+	faqSectionRepo := repository.NewFaqSectionRepository(db.DB)
+
 	userService := service.NewUserService(userRepo, cfg, jwt)
+	heroSectionService := service.NewHeroSectionService(heroSectionRepo)
+	clientSectionService := service.NewClientSectionService(clientSectionRepo)
+	aboutCompanyService := service.NewAboutCompanyService(aboutCompanyRepo)
+	aboutCompanyKeynoteService := service.NewAboutCompanyKeynoteService(aboutCompanyKeynoteRepo, aboutCompanyRepo)
+	faqSectionService := service.NewFaqSectionService(faqSectionRepo)
+
+	storageAdapter := storage.NewSupabase(cfg)
 
 	e := echo.New()
 	e.Use(middleware.CORS())
@@ -42,6 +56,12 @@ func RunServer() {
 	})
 
 	handler.NewUserHandler(e, userService)
+	handler.NewUploadImage(e, storageAdapter, cfg)
+	handler.NewHeroSectionHandler(e, cfg, heroSectionService)
+	handler.NewClientSectionHandler(e, clientSectionService, cfg)
+	handler.NewAboutCompanyHandler(e, aboutCompanyService, cfg)
+	handler.NewAboutCompanyKeynoteHandler(e, aboutCompanyKeynoteService, cfg)
+	handler.NewFaqSectionHandler(e, faqSectionService, cfg)
 
 	//Start the server
 	go func() {

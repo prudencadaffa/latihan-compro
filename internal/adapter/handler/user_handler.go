@@ -21,8 +21,7 @@ type userHandler struct {
 }
 
 var (
-	err  error
-	code string
+	err error
 )
 
 // LoginAdmin implements UserHandler.
@@ -36,14 +35,14 @@ func (u *userHandler) LoginAdmin(c echo.Context) error {
 	)
 
 	if err = c.Bind(&req); err != nil {
-		code = "[HANDLER] LoginAdmin - 1"
+		// code := "[HANDLER] LoginAdmin - 1"
 		respError.Meta.Message = err.Error()
 		respError.Meta.Status = false
 		return c.JSON(http.StatusUnprocessableEntity, respError)
 	}
 
 	if err = c.Validate(req); err != nil {
-		code = "[HANDLER] LoginAdmin - 2"
+		// code = "[HANDLER] LoginAdmin - 2"
 		respError.Meta.Message = err.Error()
 		respError.Meta.Status = false
 		return c.JSON(http.StatusBadRequest, respError)
@@ -55,7 +54,7 @@ func (u *userHandler) LoginAdmin(c echo.Context) error {
 	}
 	token, err := u.userService.LoginAdmin(ctx, reqEntity)
 	if err != nil {
-		code = "[HANDLER] LoginAdmin - 3"
+		// code = "[HANDLER] LoginAdmin - 3"
 		respError.Meta.Message = err.Error()
 		respError.Meta.Status = false
 		return c.JSON(conv.SetHTTPStatusCode(err), respError)
