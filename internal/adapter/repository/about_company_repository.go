@@ -25,7 +25,7 @@ type aboutCompanyRepository struct {
 // FetchAllCompanyAndKeynote implements AboutCompanyInterface.
 func (h *aboutCompanyRepository) FetchAllCompanyAndKeynote(ctx context.Context) (*entity.AboutCompanyEntity, error) {
 	modelAboutCompany := model.AboutCompany{}
-	err = h.DB.Select("id", "description").Find(&modelAboutCompany).Limit(1).Order("created_at DESC").Error
+	err := h.DB.Select("id", "description").Order("created_at DESC").Limit(1).Find(&modelAboutCompany).Error
 	if err != nil {
 		log.Errorf("[REPOSITORY] FetchAllCompanyAndKeynote - 1: %v", err)
 		return nil, err
@@ -62,7 +62,7 @@ func (h *aboutCompanyRepository) CreateAboutCompany(ctx context.Context, req ent
 		Description: req.Description,
 	}
 
-	if err = h.DB.Create(&modelAboutCompany).Error; err != nil {
+	if err := h.DB.Create(&modelAboutCompany).Error; err != nil {
 		log.Errorf("[REPOSITORY] CreateAboutCompany - 1: %v", err)
 		return err
 	}
@@ -72,8 +72,7 @@ func (h *aboutCompanyRepository) CreateAboutCompany(ctx context.Context, req ent
 // DeleteByIDAboutCompany implements AboutCompanyInterface.
 func (h *aboutCompanyRepository) DeleteByIDAboutCompany(ctx context.Context, id int64) error {
 	modelAboutCompany := model.AboutCompany{}
-
-	err = h.DB.Where("id = ?", id).First(&modelAboutCompany).Error
+	err := h.DB.Where("id = ?", id).First(&modelAboutCompany).Error
 	if err != nil {
 		log.Errorf("[REPOSITORY] DeleteByIDAboutCompany - 1: %v", err)
 		return err
@@ -90,8 +89,7 @@ func (h *aboutCompanyRepository) DeleteByIDAboutCompany(ctx context.Context, id 
 // EditByIDAboutCompany implements AboutCompanyInterface.
 func (h *aboutCompanyRepository) EditByIDAboutCompany(ctx context.Context, req entity.AboutCompanyEntity) error {
 	modelAboutCompany := model.AboutCompany{}
-
-	err = h.DB.Where("id =?", req.ID).First(&modelAboutCompany).Error
+	err := h.DB.Where("id =?", req.ID).First(&modelAboutCompany).Error
 	if err != nil {
 		log.Errorf("[REPOSITORY] EditByIDAboutCompany - 1: %v", err)
 		return err
@@ -109,7 +107,7 @@ func (h *aboutCompanyRepository) EditByIDAboutCompany(ctx context.Context, req e
 // FetchAllAboutCompany implements AboutCompanyInterface.
 func (h *aboutCompanyRepository) FetchAllAboutCompany(ctx context.Context) ([]entity.AboutCompanyEntity, error) {
 	modelAboutCompany := []model.AboutCompany{}
-	err = h.DB.Select("id", "description").Find(&modelAboutCompany).Order("created_at DESC").Error
+	err := h.DB.Select("id", "description").Order("created_at DESC").Find(&modelAboutCompany).Error
 	if err != nil {
 		log.Errorf("[REPOSITORY] FetchAllAboutCompany - 1: %v", err)
 		return nil, err
@@ -129,7 +127,7 @@ func (h *aboutCompanyRepository) FetchAllAboutCompany(ctx context.Context) ([]en
 // FetchByIDAboutCompany implements AboutCompanyInterface.
 func (h *aboutCompanyRepository) FetchByIDAboutCompany(ctx context.Context, id int64) (*entity.AboutCompanyEntity, error) {
 	modelAboutCompany := model.AboutCompany{}
-	err = h.DB.Select("id", "description").Where("id = ?", id).First(&modelAboutCompany).Error
+	err := h.DB.Select("id", "description").Where("id = ?", id).First(&modelAboutCompany).Error
 	if err != nil {
 		log.Errorf("[REPOSITORY] FetchByIDAboutCompany - 1: %v", err)
 		return nil, err

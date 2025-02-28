@@ -25,7 +25,7 @@ func RunServer() {
 	cfg := config.NewConfig()
 	db, err := cfg.ConnectionPostgres()
 	if err != nil {
-		log.Fatalf("Error connecting to database: %v", err)
+		log.Fatal("Error connecting to database: %v", err)
 		return
 	}
 
@@ -36,31 +36,31 @@ func RunServer() {
 	heroSectionRepo := repository.NewHeroSectionRepository(db.DB)
 	clientSectionRepo := repository.NewClientSectionRepository(db.DB)
 	aboutCompanyRepo := repository.NewAboutCompanyRepository(db.DB)
-	aboutCompanyKeynoteRepo := repository.NewAboutCompanyKeynoteRepository(db.DB)
-	faqSectionRepo := repository.NewFaqSectionRepository(db.DB)
+	faqRepo := repository.NewFaqSectionRepository(db.DB)
 	ourTeamRepo := repository.NewOurTeamRepository(db.DB)
+	aboutCompanyKeynoteRepo := repository.NewAboutCompanyKeynoteRepository(db.DB)
 	serviceSectionRepo := repository.NewServiceSectionRepository(db.DB)
-	serviceDetailRepo := repository.NewServiceDetailRepository(db.DB)
-	portofolioSectionRepo := repository.NewPortofolioSectionRepository(db.DB)
-	portofolioTestimonialRepo := repository.NewPortofolioTestimonialRepository(db.DB)
-	portofolioDetailRepo := repository.NewPortofolioDetailRepository(db.DB)
-	contactUsRepo := repository.NewContactUsRepository(db.DB)
 	appointmentRepo := repository.NewAppointmentRepository(db.DB)
+	portofolioRepo := repository.NewPortofolioSectionRepository(db.DB)
+	portofolioDetailRepo := repository.NewPortofolioDetailRepository(db.DB)
+	portofolioTestimonialRepo := repository.NewPortofolioTestimonialRepository(db.DB)
+	contactUsRepo := repository.NewContactUsRepository(db.DB)
+	serviceDetailRepo := repository.NewServiceDetailRepository(db.DB)
 
 	userService := service.NewUserService(userRepo, cfg, jwt)
 	heroSectionService := service.NewHeroSectionService(heroSectionRepo)
 	clientSectionService := service.NewClientSectionService(clientSectionRepo)
 	aboutCompanyService := service.NewAboutCompanyService(aboutCompanyRepo)
-	aboutCompanyKeynoteService := service.NewAboutCompanyKeynoteService(aboutCompanyKeynoteRepo, aboutCompanyRepo)
-	faqSectionService := service.NewFaqSectionService(faqSectionRepo)
+	faqService := service.NewFaqSectionService(faqRepo)
 	ourTeamService := service.NewOurTeamService(ourTeamRepo)
+	aboutCompanyKeynoteService := service.NewAboutCompanyKeynoteService(aboutCompanyKeynoteRepo, aboutCompanyRepo)
 	serviceSectionService := service.NewServiceSectionService(serviceSectionRepo)
-	serviceDetailService := service.NewServiceDetailService(serviceDetailRepo)
-	portofolioSectionService := service.NewPortofolioSectionService(portofolioSectionRepo)
-	portofolioTestimonialService := service.NewPortofolioTestimonialService(portofolioTestimonialRepo, portofolioSectionRepo)
-	portofolioDetailService := service.NewPortofolioDetailService(portofolioDetailRepo, portofolioSectionRepo)
-	contactUsService := service.NewContactUsService(contactUsRepo)
 	appointmentService := service.NewAppointmentService(appointmentRepo, emailMessage)
+	portofolioService := service.NewPortofolioSectionService(portofolioRepo)
+	portofolioDetailService := service.NewPortofolioDetailService(portofolioDetailRepo, portofolioRepo)
+	portofolioTestimonialService := service.NewPortofolioTestimonialService(portofolioTestimonialRepo, portofolioRepo)
+	contactUsService := service.NewContactUsService(contactUsRepo)
+	serviceDetailService := service.NewServiceDetailService(serviceDetailRepo)
 
 	storageAdapter := storage.NewSupabase(cfg)
 
@@ -77,22 +77,21 @@ func RunServer() {
 
 	handler.NewUserHandler(e, userService)
 	handler.NewUploadImage(e, storageAdapter, cfg)
-
 	handler.NewHeroSectionHandler(e, cfg, heroSectionService)
 	handler.NewClientSectionHandler(e, clientSectionService, cfg)
 	handler.NewAboutCompanyHandler(e, aboutCompanyService, cfg)
-	handler.NewAboutCompanyKeynoteHandler(e, aboutCompanyKeynoteService, cfg)
-	handler.NewFaqSectionHandler(e, faqSectionService, cfg)
+	handler.NewFaqSectionHandler(e, faqService, cfg)
 	handler.NewOurTeamHandler(e, cfg, ourTeamService)
+	handler.NewAboutCompanyKeynoteHandler(e, aboutCompanyKeynoteService, cfg)
 	handler.NewServiceSectionHandler(e, serviceSectionService, cfg)
-	handler.NewServiceDetailHandler(e, serviceDetailService, cfg)
-	handler.NewPortofolioSectionHandler(e, portofolioSectionService, cfg)
-	handler.NewPortofolioTestimonialHandler(e, portofolioTestimonialService, cfg)
-	handler.NewPortofolioDetailHandler(e, portofolioDetailService, cfg)
-	handler.NewContactUsHandler(e, contactUsService, cfg)
 	handler.NewAppointmentHandler(e, appointmentService, cfg)
+	handler.NewPortofolioSectionHandler(e, portofolioService, cfg)
+	handler.NewPortofolioDetailHandler(e, portofolioDetailService, cfg)
+	handler.NewPortofolioTestimonialHandler(e, portofolioTestimonialService, cfg)
+	handler.NewContactUsHandler(e, contactUsService, cfg)
+	handler.NewServiceDetailHandler(e, serviceDetailService, cfg)
 
-	//Start the server
+	// Starting server
 	go func() {
 		if cfg.App.AppPort == "" {
 			cfg.App.AppPort = os.Getenv("APP_PORT")
@@ -100,7 +99,7 @@ func RunServer() {
 
 		err := e.Start(":" + cfg.App.AppPort)
 		if err != nil {
-			log.Fatal("Error starting server: ", err)
+			log.Fatal("error starting server: ", err)
 		}
 	}()
 	quit := make(chan os.Signal, 1)
@@ -112,7 +111,7 @@ func RunServer() {
 
 	log.Println("server shutdown of 5 second.")
 
-	// Shutdown with gracefully, waiting max 5 seccond for current processing
+	// gracefully shutdown the server, waiting max 5 seconds for current operations to complete
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 

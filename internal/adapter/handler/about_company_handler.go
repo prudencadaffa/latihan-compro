@@ -79,14 +79,14 @@ func (cs *aboutCompanyHandler) CreateAboutCompany(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, respError)
 	}
 
-	if err = c.Bind(&req); err != nil {
+	if err := c.Bind(&req); err != nil {
 		log.Errorf("[HANDLER] CreateAboutCompany - 2: %v", err)
 		respError.Meta.Message = err.Error()
 		respError.Meta.Status = false
 		return c.JSON(http.StatusUnprocessableEntity, respError)
 	}
 
-	if err = c.Validate(req); err != nil {
+	if err := c.Validate(req); err != nil {
 		log.Errorf("[HANDLER] CreateAboutCompany - 3: %v", err)
 		respError.Meta.Message = err.Error()
 		respError.Meta.Status = false
@@ -97,7 +97,7 @@ func (cs *aboutCompanyHandler) CreateAboutCompany(c echo.Context) error {
 		Description: req.Description,
 	}
 
-	err = cs.aboutCompanyService.CreateAboutCompany(ctx, reqEntity)
+	err := cs.aboutCompanyService.CreateAboutCompany(ctx, reqEntity)
 	if err != nil {
 		log.Errorf("[HANDLER] CreateAboutCompany - 4: %v", err)
 		respError.Meta.Message = err.Error()
@@ -144,7 +144,7 @@ func (cs *aboutCompanyHandler) DeleteByIDAboutCompany(c echo.Context) error {
 		respError.Meta.Status = false
 		return c.JSON(conv.SetHTTPStatusCode(err), respError)
 	}
-	resp.Meta.Message = "Success delete client section"
+	resp.Meta.Message = "Success delete about company"
 	resp.Meta.Status = true
 	resp.Data = nil
 	resp.Pagination = nil
@@ -178,14 +178,14 @@ func (cs *aboutCompanyHandler) EditByIDAboutCompany(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, respError)
 	}
 
-	if err = c.Bind(&req); err != nil {
+	if err := c.Bind(&req); err != nil {
 		log.Errorf("[HANDLER] EditByIDAboutCompany - 3: %v", err)
 		respError.Meta.Message = err.Error()
 		respError.Meta.Status = false
 		return c.JSON(http.StatusUnprocessableEntity, respError)
 	}
 
-	if err = c.Validate(req); err != nil {
+	if err := c.Validate(req); err != nil {
 		log.Errorf("[HANDLER] EditByIDAboutCompany - 4: %v", err)
 		respError.Meta.Message = err.Error()
 		respError.Meta.Status = false
@@ -243,7 +243,7 @@ func (cs *aboutCompanyHandler) FetchAllAboutCompany(c echo.Context) error {
 		})
 	}
 
-	resp.Meta.Message = "Success fetch all client section"
+	resp.Meta.Message = "Success fetch all about company"
 	resp.Meta.Status = true
 	resp.Data = respAboutCompany
 	resp.Pagination = nil

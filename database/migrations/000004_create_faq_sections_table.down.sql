@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS "faq_section";
+DROP TABLE IF EXISTS "faq_sections";

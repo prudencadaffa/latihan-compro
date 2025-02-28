@@ -27,7 +27,7 @@ type aboutCompanyKeynoteRepository struct {
 func (h *aboutCompanyKeynoteRepository) FetchByCompanyID(ctx context.Context, companyId int64) ([]entity.AboutCompanyKeynoteEntity, error) {
 	rows, err := h.DB.Table("about_company_keynotes as ack").
 		Select("ack.id", "ack.keypoint", "ack.about_company_id", "ack.path_image", "ac.description").
-		Joins("inner join about_companies as ac on ac.id = ack.about_company_id").
+		Joins("inner join about_company as ac on ac.id = ack.about_company_id").
 		Where("ack.about_company_id = ? AND ack.deleted_at IS NULL", companyId).
 		Rows()
 	if err != nil {
@@ -103,7 +103,7 @@ func (h *aboutCompanyKeynoteRepository) EditByIDAboutCompanyKeynote(ctx context.
 func (h *aboutCompanyKeynoteRepository) FetchAllAboutCompanyKeynote(ctx context.Context) ([]entity.AboutCompanyKeynoteEntity, error) {
 	rows, err := h.DB.Table("about_company_keynotes as ack").
 		Select("ack.id", "ack.keypoint", "ack.about_company_id", "ack.path_image", "ac.description").
-		Joins("inner join about_companies as ac on ac.id = ack.about_company_id").
+		Joins("inner join about_company as ac on ac.id = ack.about_company_id").
 		Where("ack.deleted_at IS NULL").
 		Rows()
 	if err != nil {
@@ -129,7 +129,7 @@ func (h *aboutCompanyKeynoteRepository) FetchAllAboutCompanyKeynote(ctx context.
 func (h *aboutCompanyKeynoteRepository) FetchByIDAboutCompanyKeynote(ctx context.Context, id int64) (*entity.AboutCompanyKeynoteEntity, error) {
 	rows, err := h.DB.Table("about_company_keynotes as ack").
 		Select("ack.id", "ack.keypoint", "ack.about_company_id", "ack.path_image", "ac.description").
-		Joins("inner join about_companies as ac on ac.id = ack.about_company_id").
+		Joins("inner join about_company as ac on ac.id = ack.about_company_id").
 		Where("ack.id = ? AND ack.deleted_at IS NULL", id).
 		Rows()
 	if err != nil {
