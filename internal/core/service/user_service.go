@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	// err  error
+	err  error
 	code string
 )
 

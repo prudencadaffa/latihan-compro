@@ -37,45 +37,6 @@ func (h *heroSection) CreateHeroSection(ctx context.Context, req entity.HeroSect
 	return nil
 }
 
-// DeleteByIDHeroSection implements HeroSectionInterface.
-func (h *heroSection) DeleteByIDHeroSection(ctx context.Context, id int64) error {
-	modelHeroSection := model.HeroSection{}
-
-	err = h.DB.Where("id = ?", id).First(&modelHeroSection).Error
-	if err != nil {
-		log.Errorf("[REPOSITORY] DeleteByIDHeroSection - 1: %v", err)
-		return err
-	}
-
-	err = h.DB.Delete(&modelHeroSection).Error
-	if err != nil {
-		log.Errorf("[REPOSITORY] DeleteByIDHeroSection - 2: %v", err)
-		return err
-	}
-	return nil
-}
-
-// EditByIDHeroSection implements HeroSectionInterface.
-func (h *heroSection) EditByIDHeroSection(ctx context.Context, req entity.HeroSectionEntity) error {
-	modelHeroSection := model.HeroSection{}
-
-	err = h.DB.Where("id =?", req.ID).First(&modelHeroSection).Error
-	if err != nil {
-		log.Errorf("[REPOSITORY] EditByIDHeroSection - 1: %v", err)
-		return err
-	}
-	modelHeroSection.Heading = req.Heading
-	modelHeroSection.SubHeading = req.SubHeading
-	modelHeroSection.PathVideo = &req.PathVideo
-	modelHeroSection.PathBanner = req.Banner
-	err = h.DB.Save(&modelHeroSection).Error
-	if err != nil {
-		log.Errorf("[REPOSITORY] EditByIDHeroSection - 2: %v", err)
-		return err
-	}
-	return nil
-}
-
 // FetchAllHeroSection implements HeroSectionInterface.
 func (h *heroSection) FetchAllHeroSection(ctx context.Context) ([]entity.HeroSectionEntity, error) {
 	modelHeroSection := []model.HeroSection{}
@@ -115,6 +76,45 @@ func (h *heroSection) FetchByIDHeroSection(ctx context.Context, id int64) (*enti
 		PathVideo:  *modelHeroSection.PathVideo,
 		Banner:     modelHeroSection.PathBanner,
 	}, nil
+}
+
+// EditByIDHeroSection implements HeroSectionInterface.
+func (h *heroSection) EditByIDHeroSection(ctx context.Context, req entity.HeroSectionEntity) error {
+	modelHeroSection := model.HeroSection{}
+
+	err = h.DB.Where("id =?", req.ID).First(&modelHeroSection).Error
+	if err != nil {
+		log.Errorf("[REPOSITORY] EditByIDHeroSection - 1: %v", err)
+		return err
+	}
+	modelHeroSection.Heading = req.Heading
+	modelHeroSection.SubHeading = req.SubHeading
+	modelHeroSection.PathVideo = &req.PathVideo
+	modelHeroSection.PathBanner = req.Banner
+	err = h.DB.Save(&modelHeroSection).Error
+	if err != nil {
+		log.Errorf("[REPOSITORY] EditByIDHeroSection - 2: %v", err)
+		return err
+	}
+	return nil
+}
+
+// DeleteByIDHeroSection implements HeroSectionInterface.
+func (h *heroSection) DeleteByIDHeroSection(ctx context.Context, id int64) error {
+	modelHeroSection := model.HeroSection{}
+
+	err = h.DB.Where("id = ?", id).First(&modelHeroSection).Error
+	if err != nil {
+		log.Errorf("[REPOSITORY] DeleteByIDHeroSection - 1: %v", err)
+		return err
+	}
+
+	err = h.DB.Delete(&modelHeroSection).Error
+	if err != nil {
+		log.Errorf("[REPOSITORY] DeleteByIDHeroSection - 2: %v", err)
+		return err
+	}
+	return nil
 }
 
 func NewHeroSectionRepository(DB *gorm.DB) HeroSectionInterface {

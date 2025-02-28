@@ -26,20 +26,20 @@ type Supabase struct {
 	StorageBucket string `json:"storage_bucket"`
 }
 
-// type EmailConfig struct {
-// 	Host     string `json:"host"`
-// 	Port     int    `json:"port"`
-// 	Username string `json:"username"`
-// 	Password string `json:"password"`
-// 	Reciever string `json:"reciever"`
-// 	IsTLS    bool   `json:"is_tls"`
-// }
+type EmailConfig struct {
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Reciever string `json:"reciever"`
+	IsTLS    bool   `json:"is_tls"`
+}
 
 type Config struct {
 	App      App
 	Psql     PsqlDB
 	Supabase Supabase
-	// Email    EmailConfig
+	Email    EmailConfig
 }
 
 func NewConfig() *Config {
@@ -65,13 +65,13 @@ func NewConfig() *Config {
 			StorageKey:    viper.GetString("SUPABASE_STORAGE_KEY"),
 			StorageBucket: viper.GetString("SUPABASE_STORAGE_BUCKET"),
 		},
-		// Email: EmailConfig{
-		// 	Host:     viper.GetString("EMAIL_HOST"),
-		// 	Port:     viper.GetInt("EMAIL_PORT"),
-		// 	Username: viper.GetString("EMAIL_USERNAME"),
-		// 	Password: viper.GetString("EMAIL_PASSWORD"),
-		// 	Reciever: viper.GetString("EMAIL_RECEIVER"),
-		// 	IsTLS:    viper.GetBool("EMAIL_IS_TLS"),
-		// },
+		Email: EmailConfig{
+			Host:     viper.GetString("EMAIL_HOST"),
+			Port:     viper.GetInt("EMAIL_PORT"),
+			Username: viper.GetString("EMAIL_USERNAME"),
+			Password: viper.GetString("EMAIL_PASSWORD"),
+			Reciever: viper.GetString("EMAIL_RECEIVER"),
+			IsTLS:    viper.GetBool("EMAIL_IS_TLS"),
+		},
 	}
 }

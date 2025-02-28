@@ -300,7 +300,7 @@ func NewAboutCompanyHandler(e *echo.Echo, aboutCompanyService service.AboutCompa
 
 	mid := middleware.NewMiddleware(cfg)
 
-	aboutCompanyApp := e.Group("/about-companies")
+	aboutCompanyApp := e.Group("/about-company")
 	aboutCompanyApp.GET("", h.FetchAllCompanyHome)
 
 	adminApp := aboutCompanyApp.Group("/admin", mid.CheckToken())

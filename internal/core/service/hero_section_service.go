@@ -23,16 +23,6 @@ func (h *heroSectionService) CreateHeroSection(ctx context.Context, req entity.H
 	return h.heroSectionRepo.CreateHeroSection(ctx, req)
 }
 
-// DeleteByIDHeroSection implements HeroSectionServiceInterface.
-func (h *heroSectionService) DeleteByIDHeroSection(ctx context.Context, id int64) error {
-	return h.heroSectionRepo.DeleteByIDHeroSection(ctx, id)
-}
-
-// EditByIDHeroSection implements HeroSectionServiceInterface.
-func (h *heroSectionService) EditByIDHeroSection(ctx context.Context, req entity.HeroSectionEntity) error {
-	return h.heroSectionRepo.EditByIDHeroSection(ctx, req)
-}
-
 // FetchAllHeroSection implements HeroSectionServiceInterface.
 func (h *heroSectionService) FetchAllHeroSection(ctx context.Context) ([]entity.HeroSectionEntity, error) {
 	return h.heroSectionRepo.FetchAllHeroSection(ctx)
@@ -41,6 +31,16 @@ func (h *heroSectionService) FetchAllHeroSection(ctx context.Context) ([]entity.
 // FetchByIDHeroSection implements HeroSectionServiceInterface.
 func (h *heroSectionService) FetchByIDHeroSection(ctx context.Context, id int64) (*entity.HeroSectionEntity, error) {
 	return h.heroSectionRepo.FetchByIDHeroSection(ctx, id)
+}
+
+// EditByIDHeroSection implements HeroSectionServiceInterface.
+func (h *heroSectionService) EditByIDHeroSection(ctx context.Context, req entity.HeroSectionEntity) error {
+	return h.heroSectionRepo.EditByIDHeroSection(ctx, req)
+}
+
+// DeleteByIDHeroSection implements HeroSectionServiceInterface.
+func (h *heroSectionService) DeleteByIDHeroSection(ctx context.Context, id int64) error {
+	return h.heroSectionRepo.DeleteByIDHeroSection(ctx, id)
 }
 
 func NewHeroSectionService(heroSectionRepo repository.HeroSectionInterface) HeroSectionServiceInterface {

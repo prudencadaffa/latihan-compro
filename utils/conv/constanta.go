@@ -2,10 +2,10 @@ package conv
 
 import "errors"
 
-type ContextKey string
+type contextKey string
 
 const (
-	CtxUserAgent = ContextKey("user-agent")
+	CtxUserAgent = contextKey("user-agent")
 )
 
 const (
@@ -14,6 +14,8 @@ const (
 
 var (
 	ErrInternalServerError  = errors.New("internal server error")
-	ErrNotFound             = errors.New("not found")
-	ErrWrongEmailOrPassword = errors.New("wrong email or password")
+	ErrNotFound             = errors.New("data not found")
+	ErrUserAlreadyExist     = errors.New("user already exist")
+	ErrBadParamInput        = errors.New("given param is not valid")
+	ErrWrongEmailOrPassword = errors.New("wrong email/password")
 )

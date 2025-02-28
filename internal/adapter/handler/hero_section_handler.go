@@ -27,78 +27,6 @@ type heroSectionHandler struct {
 	heroSectionService service.HeroSectionServiceInterface
 }
 
-// FetchHeroDataHome implements HeroSectionHandlerInterface.
-func (h *heroSectionHandler) FetchHeroDataHome(c echo.Context) error {
-	var (
-		respHero  = response.HeroSectionResponse{}
-		resp      = response.DefaultSuccessResponse{}
-		respError = response.ErrorResponseDefault{}
-		ctx       = c.Request().Context()
-	)
-
-	results, err := h.heroSectionService.FetchAllHeroSection(ctx)
-	if err != nil {
-		log.Errorf("[HANDLER] FetchHeroDataHome - 1: %v", err)
-		respError.Meta.Message = err.Error()
-		respError.Meta.Status = false
-		return c.JSON(conv.SetHTTPStatusCode(err), respError)
-	}
-
-	respHero.Banner = results[0].Banner
-	respHero.Heading = results[0].Heading
-	respHero.SubHeading = results[0].SubHeading
-	respHero.PathVideo = results[0].PathVideo
-	respHero.ID = results[0].ID
-
-	resp.Meta.Message = "Success fetch hero data home"
-	resp.Meta.Status = true
-	resp.Data = respHero
-	resp.Pagination = nil
-
-	return c.JSON(http.StatusOK, resp)
-}
-
-// FetchAllHeroSection implements HeroSectionHandlerInterface.
-func (h *heroSectionHandler) FetchAllHeroSection(c echo.Context) error {
-	var (
-		resp      = response.DefaultSuccessResponse{}
-		respError = response.ErrorResponseDefault{}
-		ctx       = c.Request().Context()
-		respHero  = []response.HeroSectionResponse{}
-	)
-
-	user := conv.GetUserIDByContext(c)
-	if user == 0 {
-		log.Errorf("[HANDLER] FetchAllHeroSection - 1: Unauthorized")
-		respError.Meta.Message = "Unauthorized"
-		respError.Meta.Status = false
-		return c.JSON(http.StatusUnauthorized, respError)
-	}
-	results, err := h.heroSectionService.FetchAllHeroSection(ctx)
-	if err != nil {
-		log.Errorf("[HANDLER] FetchAllHeroSection - 2: %v", err)
-		respError.Meta.Message = err.Error()
-		respError.Meta.Status = false
-		return c.JSON(conv.SetHTTPStatusCode(err), respError)
-	}
-
-	for _, val := range results {
-		respHero = append(respHero, response.HeroSectionResponse{
-			ID:         val.ID,
-			Heading:    val.Heading,
-			SubHeading: val.SubHeading,
-			PathVideo:  val.PathVideo,
-			Banner:     val.Banner,
-		})
-	}
-
-	resp.Meta.Message = "Success fetch all hero section"
-	resp.Meta.Status = true
-	resp.Data = respHero
-	resp.Pagination = nil
-	return c.JSON(http.StatusOK, resp)
-}
-
 // CreateHeroSection implements HeroSectionHandlerInterface.
 func (h *heroSectionHandler) CreateHeroSection(c echo.Context) error {
 	var (
@@ -150,6 +78,47 @@ func (h *heroSectionHandler) CreateHeroSection(c echo.Context) error {
 	resp.Data = nil
 	resp.Pagination = nil
 	return c.JSON(http.StatusCreated, resp)
+}
+
+// FetchAllHeroSection implements HeroSectionHandlerInterface.
+func (h *heroSectionHandler) FetchAllHeroSection(c echo.Context) error {
+	var (
+		resp      = response.DefaultSuccessResponse{}
+		respError = response.ErrorResponseDefault{}
+		ctx       = c.Request().Context()
+		respHero  = []response.HeroSectionResponse{}
+	)
+
+	user := conv.GetUserIDByContext(c)
+	if user == 0 {
+		log.Errorf("[HANDLER] FetchAllHeroSection - 1: Unauthorized")
+		respError.Meta.Message = "Unauthorized"
+		respError.Meta.Status = false
+		return c.JSON(http.StatusUnauthorized, respError)
+	}
+	results, err := h.heroSectionService.FetchAllHeroSection(ctx)
+	if err != nil {
+		log.Errorf("[HANDLER] FetchAllHeroSection - 2: %v", err)
+		respError.Meta.Message = err.Error()
+		respError.Meta.Status = false
+		return c.JSON(conv.SetHTTPStatusCode(err), respError)
+	}
+
+	for _, val := range results {
+		respHero = append(respHero, response.HeroSectionResponse{
+			ID:         val.ID,
+			Heading:    val.Heading,
+			SubHeading: val.SubHeading,
+			PathVideo:  val.PathVideo,
+			Banner:     val.Banner,
+		})
+	}
+
+	resp.Meta.Message = "Success fetch all hero section"
+	resp.Meta.Status = true
+	resp.Data = respHero
+	resp.Pagination = nil
+	return c.JSON(http.StatusOK, resp)
 }
 
 // FetchByIDHeroSection implements HeroSectionHandlerInterface.
@@ -300,6 +269,36 @@ func (h *heroSectionHandler) DeleteByIDHeroSection(c echo.Context) error {
 	return c.JSON(http.StatusOK, resp)
 }
 
+// FetchHeroDataHome implements HeroSectionHandlerInterface.
+func (h *heroSectionHandler) FetchHeroDataHome(c echo.Context) error {
+	var (
+		respHero  = response.HeroSectionResponse{}
+		resp      = response.DefaultSuccessResponse{}
+		respError = response.ErrorResponseDefault{}
+		ctx       = c.Request().Context()
+	)
+
+	results, err := h.heroSectionService.FetchAllHeroSection(ctx)
+	if err != nil {
+		log.Errorf("[HANDLER] FetchHeroDataHome - 1: %v", err)
+		respError.Meta.Message = err.Error()
+		respError.Meta.Status = false
+		return c.JSON(conv.SetHTTPStatusCode(err), respError)
+	}
+
+	respHero.Banner = results[0].Banner
+	respHero.Heading = results[0].Heading
+	respHero.SubHeading = results[0].SubHeading
+	respHero.PathVideo = results[0].PathVideo
+	respHero.ID = results[0].ID
+
+	resp.Meta.Message = "Success fetch hero data home"
+	resp.Meta.Status = true
+	resp.Data = respHero
+	resp.Pagination = nil
+
+	return c.JSON(http.StatusOK, resp)
+}
 func NewHeroSectionHandler(c *echo.Echo, cfg *config.Config, heroSectionService service.HeroSectionServiceInterface) HeroSectionHandlerInterface {
 	heroHandler := &heroSectionHandler{
 		heroSectionService: heroSectionService,
