@@ -20,8 +20,8 @@ This project is a modern and high-performance web application for a company prof
 ### Backend Setup
 
 # Clone the repository
-git clone https://github.com/yourusername/company-profile-golang.git
-cd company-profile-golang
+git clone https://github.com/prudencadaffa/latihan-compro.git
+cd latihan-compro
 
 # Create an environment file
 cp .env.example .env
